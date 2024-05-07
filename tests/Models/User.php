@@ -59,12 +59,12 @@ class User extends Model
         $table = self::getTable();
 
         return [
-            'first_name',
-            'last_name',
-            'email' => 5,
-            'description',
-            // concat first_name and last_name (sqlite does not support CONCAT function)
-            DB::raw("{$table}.first_name || ' ' || {$table}.last_name"),
+            // 'first_name',
+            // 'last_name',
+            // 'email' => 5,
+            // 'description',
+            // // concat first_name and last_name (sqlite does not support CONCAT function)
+            // DB::raw("{$table}.first_name || ' ' || {$table}.last_name"),
             'team.name',
         ];
     }

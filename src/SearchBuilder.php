@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Maize\Searchable\Concerns\AddsSearchTermToQuery;
 use Maize\Searchable\Concerns\JoinsRelationshipsToQuery;
+use Maize\Searchable\Searchables\SearchableAttribute;
+use Maize\Searchable\Searchables\SearchableFactory;
 use Maize\Searchable\Utils\Parser;
 
 class SearchBuilder extends Builder
@@ -51,11 +53,17 @@ class SearchBuilder extends Builder
     public function withSearchableAttributes(array $attributes): self
     {
         foreach ($attributes as $key => $value) {
-            if (is_numeric($key)) {
-                $this->searchableAttributes->push(new SearchableAttribute($value, $this->defaultMatchWeight));
-            } else {
-                $this->searchableAttributes->push(new SearchableAttribute($key, $value));
-            }
+
+
+            $this->searchableAttributes->push(
+                SearchableFactory::make(column: $value, model: $this->getModel())->create()
+            );
+
+            // if (is_numeric($key)) {
+            //     $this->searchableAttributes->push(new SearchableAttribute($value, $this->defaultMatchWeight));
+            // } else {
+            //     $this->searchableAttributes->push(new SearchableAttribute($key, $value));
+            // }
         }
 
         return $this;
@@ -88,8 +96,8 @@ class SearchBuilder extends Builder
                 foreach ($searchTerms as $searchTerm) {
                     $this->searchTerm(
                         $query,
-                        $searchableAttribute->getAttribute(),
-                        $searchableAttribute->getWeight(),
+                        $searchableAttribute->column, // $searchableAttribute->getAttribute(),
+                        1, //$searchableAttribute->getWeight(),
                         $searchTerm
                     );
                 }

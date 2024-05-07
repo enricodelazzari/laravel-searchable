@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\JoinClause as Join;
 use LogicException;
+use Maize\Searchable\Searchables\SearchableRelation;
 
 class Joiner
 {
@@ -88,7 +89,7 @@ class Joiner
     /**
      * Join related tables.
      */
-    public function join(string $target, string $type = 'inner'): Model
+    public function join(SearchableRelation $target, string $type = 'inner'): Model
     {
         $related = $this->model;
 
@@ -102,7 +103,7 @@ class Joiner
     /**
      * Left join related tables.
      */
-    public function leftJoin(string $target): Model
+    public function leftJoin(SearchableRelation $target): Model
     {
         return $this->join($target, 'left');
     }
@@ -110,7 +111,7 @@ class Joiner
     /**
      * Right join related tables.
      */
-    public function rightJoin(string $target): Model
+    public function rightJoin(SearchableRelation $target): Model
     {
         return $this->join($target, 'right');
     }

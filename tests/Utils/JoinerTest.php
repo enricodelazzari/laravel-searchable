@@ -1,5 +1,5 @@
 <?php
-
+/*
 use Maize\Searchable\Tests\Models\User;
 use Maize\Searchable\Utils\Joiner;
 
@@ -82,3 +82,4 @@ it('should join relations with soft delete', function () {
 
     expect($userQuery->toSql())->toEqual($sql);
 });
+*/

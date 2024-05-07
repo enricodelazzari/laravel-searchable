@@ -4,6 +4,7 @@ namespace Maize\Searchable\Concerns;
 
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Arr;
+use Maize\Searchable\Searchables\SearchableRelation;
 use Maize\Searchable\Utils\AttributeUtil;
 use Maize\Searchable\Utils\Joiner;
 
@@ -25,11 +26,18 @@ trait JoinsRelationshipsToQuery
     protected function getRelationships(): array
     {
         return $this->searchableAttributes
-            ->map
-            ->getAttribute()
-            ->filter(fn ($attribute) => AttributeUtil::isRelationship($this->getModel(), $attribute))
-            ->map(fn ($attribute) => Arr::first(explode('.', $attribute)))
-            ->unique()
+            ->filter(function ($searchable) {
+                return $searchable instanceof SearchableRelation;
+            })
+            // ->unique(fn ($relation) => $relation->path())
             ->toArray();
+
+        // return $this->searchableAttributes
+        //     ->map
+        //     ->getAttribute()
+        //     ->filter(fn ($attribute) => AttributeUtil::isRelationship($this->getModel(), $attribute))
+        //     ->map(fn ($attribute) => Arr::first(explode('.', $attribute)))
+        //     ->unique()
+        //     ->toArray();
     }
 }
