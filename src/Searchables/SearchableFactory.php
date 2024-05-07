@@ -13,21 +13,21 @@ readonly class SearchableFactory
         public Model $model,
         public string $column,
         // public ?float $weight = null,
-    )
-    {}
+    ) {
+    }
 
     public static function make(mixed ...$args): self
     {
         return new self(...$args);
     }
 
-    public function create() { // :Searchable
-        if (static::isAttribute()) {
-            return SearchableAttribute::make(
-                column: $this->column,
-                model: $this->model
-            );
-        }
+    public function create() // :Searchable
+    {if (static::isAttribute()) {
+        return SearchableAttribute::make(
+            column: $this->column,
+            model: $this->model
+        );
+    }
 
         if (static::isRelationship()) {
             return SearchableRelation::make(

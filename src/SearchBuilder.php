@@ -54,7 +54,6 @@ class SearchBuilder extends Builder
     {
         foreach ($attributes as $key => $value) {
 
-
             $this->searchableAttributes->push(
                 SearchableFactory::make(column: $value, model: $this->getModel())->create()
             );
